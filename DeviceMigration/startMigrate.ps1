@@ -672,10 +672,9 @@ else
 # Leave Domain/Hybrid Join
 $migrateAdmin = "MigrationInProgress"
 $adminPW = generatePassword
-$adminGroup = Get-CimInstance -Query "Select * From Win32_Group Where LocalAccount = True And SID = 'S-1-5-32-544'"
-$adminGroupName = $adminGroup.Name
 New-LocalUser -Name $migrateAdmin -Password $adminPW -PasswordNeverExpires
-Add-LocalGroupMember -Group $adminGroupName -Member $migrateAdmin
+$adminGroupSID = "S-1-5-32-544"
+Add-LocalGroupMember -Member $migrateAdmin -SID $adminGroupSID
 
 if($pc.domainJoined -eq "YES")
 {
